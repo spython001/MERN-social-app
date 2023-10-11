@@ -12,8 +12,12 @@ export default function Profile() {
 
   useEffect(() => {
     const fetchUser = async () => { 
-      const res = await axios.get(`http://localhost:8800/api/users?username=john`);
-      setUser(res.data)
+      try {
+        const res = await axios.get(`http://localhost:8800/api/users?username=john`);
+        setUser(res.data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
     };
     fetchUser();
   }, []);
@@ -36,7 +40,7 @@ export default function Profile() {
             </div>
             <div className="profileRightBottom">
                 <Feed username="john"/> 
-                <Rightbar profile/>
+                <Rightbar user={user}/>
             </div>      
         </div>    
       </div>

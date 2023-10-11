@@ -14,8 +14,12 @@ export default function Post({ post }) {
 
   useEffect(() => {
     const fetchUser = async () => { 
-      const res = await axios.get(`http://localhost:8800/api/users?userId=${post.userId}`);
-      setUser(res.data)
+      try {
+        const res = await axios.get(`http://localhost:8800/api/users?userId=${post.userId}`);
+        setUser(res.data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
     };
     fetchUser();
   }, [post.userId]);

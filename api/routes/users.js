@@ -3,13 +3,6 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const { json } = require("express");
 
-router.get("/",(req,res)=>{
-    res.setHeader("Access-Control-Allow-Origin", "*")
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader("Access-Control-Max-Age", "1800");
-    res.setHeader("Access-Control-Allow-Headers", "content-type");
-    res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
-});
 
 //Update user
 router.put("/:id", async(req,res)=>{
@@ -50,20 +43,23 @@ router.delete("/:id", async(req,res)=>{
 });
 
 //Get 'a' or one user
-router.get("/", async(req,res)=> {
+router.get("/", async (req, res) => {
+    console.log('Request receieved');
     const userId = req.query.userId;
     const username = req.query.username;
     try {
-        const user = userId 
-        ? await User.findById(userId) 
-        : await User.findOne({ username: username });
-        //selecting only few properties to be seen from getting the user
-        const {password, updatedAt, ...other} = user._doc
-        res.status(200).json(other);
-    } catch(err) {
-        return res.status(500).json(err);
-    }
-})
+      console.log('Before query');
+      const user = userId ? await User.findById(userId) : await User.findOne({ username: username });
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      console.log('After query');
+      const { password, updatedAt, ...other } = user._doc;
+      res.status(200).json(other);
+    } catch (err) {
+        res.status(500).json(err);
+  }});
+
 
 //Follow a user
 router.put("/:id/follow", async (req, res)=>{
