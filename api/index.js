@@ -8,7 +8,8 @@ const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
 const cors = require("cors");
-const multer  = require("multer")
+const multer  = require("multer");
+const path = require("path");
 
 app.use(cors());
 
@@ -18,6 +19,9 @@ mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopolo
 .then(() => console.log('Connected to MongoDB'))
 .catch((err) => {console.error(err);});
 
+
+//for path
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 //MIDDLEWARE
 app.use(express.json());
