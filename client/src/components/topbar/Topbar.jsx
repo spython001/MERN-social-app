@@ -6,8 +6,8 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function Topbar() {
 
-  const { user } = useContext(AuthContext);
   const PF = import.meta.env.VITE_REACT_APP_PUBLIC_FOLDER;
+  const { user } = useContext(AuthContext);
 
   return (
     <div className='topbarContainer'>
@@ -45,7 +45,7 @@ export default function Topbar() {
           </div>
           <Link to={`/profile/${user.username}`}>
             <img 
-              src={user.profilePicture ? PF + user.profilePicture : PF+"person/noAvatar.png"} 
+              src= {user.profilePicture ? PF+user.profilePicture : PF+"person/noAvatar.png"} 
               alt="" 
               className="topbarImg" 
             />
