@@ -1,7 +1,7 @@
 import "./register.css"
 import { useRef } from "react";
 import axios from "axios";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 export default function Register() {
   const username = useRef();
@@ -17,7 +17,7 @@ export default function Register() {
     }else{
         const user = {
             username: username.current.value,
-            email: password.current.value,
+            email: email.current.value,
             password: password.current.value,
         }
         try {

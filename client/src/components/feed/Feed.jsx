@@ -1,23 +1,25 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import Share from "../../components/share/Share"
 import Post from "../../components/post/Post"
 import "./feed.css"
 import axios from "axios"
+import { AuthContext } from "../../context/AuthContext"
 
 
 export default function Feed({username}) {
   const [posts, setPosts] = useState([])
+  const {user} = useContext(AuthContext);
 
   useEffect(() => {
     const fetchPosts = async () => {
       const res = username 
-      ? await axios.get("http://localhost:8800/api/posts/profile/"+username)
-      : await axios.get("http://localhost:8800/api/posts/timeline/64e21d8bea1f62869a55a66e");
+      ? await axios.get("http://localhost:8800/api/posts/profile/"+ username)
+      : await axios.get("http://localhost:8800/api/posts/timeline/"+ user._id);
       setPosts(res.data)
     };
     fetchPosts();
-  }, [username]);
+  }, [username,user._id]);
   
 
   return (
