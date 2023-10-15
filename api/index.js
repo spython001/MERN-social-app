@@ -12,6 +12,26 @@ const multer  = require("multer");
 const path = require("path");
 
 app.use(cors());
+const corsOptions = {
+    origin: "http://localhost:5173",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // Enable cookies and credentials
+    optionsSuccessStatus: 204, // Some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
+
+/*const corsOptions = {
+    origin: 'http://localhost:5173', // Replace with your frontend origin
+    optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+
+app.options('*', cors());
+
+app.use(cors({ origin: '*' })); */
+
 
 dotenv.config();
 
@@ -42,9 +62,10 @@ app.post("/api/upload", upload.single("file"), (req, res) =>{
     try {
        return res.status(200).json("File uploaded successfully");
     } catch (err) {
-        
+        console.error(err);
+        return res.status(500).json("internal server error");
     }
-})
+});
 
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
